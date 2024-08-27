@@ -1,0 +1,47 @@
+body {
+    background-color: #480454;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    }
+    h1 {
+        color: #ffffff;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        text-align: center;
+    }
+    
+    #logo {
+        width: 240px;
+        height: 240px;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    #boton1, #boton2{
+        transition: all .18s ease-in-out;
+        cursor: pointer;
+        font-size: 40px;
+        color: #ffffff;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: 500px;
+        background: linear-gradient(to right, #e221f0, #aa35aa);
+        width: 280px;
+        height: 130px;
+        border-radius: 18px;
+        border-color: #da0be8;
+        
+      }
+    #boton1:hover, #boton2:hover {
+        transition: all .18s ease-in-out;
+        text-shadow:
+          0 0 30px rgba(255,255,255, 1),
+          0 0 60px rgba(255, 255, 255, .8),
+          0 0 75px rgba(255, 255, 255, .6),
+          0 0 80px rgba(255, 255, 255, .4),
+          0 0 77px rgba(255, 255, 255, .5),
+          0 0 78px rgba(255, 255, 255, .4),
+          0 0 79px rgba(255, 255, 255, .3),
+          0 0 80px rgba(255, 255, 255, .2),
+          0 0 120px rgba(255, 255, 255, .1);
+      }

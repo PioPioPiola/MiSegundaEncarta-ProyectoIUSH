@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
+
+    <title>Mi Segunda Encarta</title>
+</head>
+<body>
+    <div class="contenido" style="display: flex; flex-direction: column; width: 900px;">
+        <h1>MI SEGUNDA ENCARTA</h1>
+        <div>
+            <center><img src="{{ url_for('static', filename='Logo-sin-fondo.png') }}" alt="Logo-Nombre" id="logo"></div></center>
+            <div class="buttonBox" style="display: flex; justify-content: space-between; align-items: center; padding: 30px;">
+                <button id="boton1">Modo edición</button>
+                <button id="boton2">Modo visualización</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
