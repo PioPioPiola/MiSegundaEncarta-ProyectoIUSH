@@ -1,23 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
-
     <title>Mi Segunda Encarta</title>
 </head>
 <body>
-    <div class="contenido" style="display: flex; flex-direction: column; width: 900px;">
+    <div class="box2">
         <h1>MI SEGUNDA ENCARTA</h1>
-        <div>
-            <center><img src="{{ url_for('static', filename='LogoAnimed.gif') }}" alt="Logo-Nombre" id="logo"></div></center>
-            <div class="buttonBox" style="display: flex; justify-content: space-between; align-items: center; padding: 30px;">
-                <button id="boton1">Modo edición</button>
-                <button id="boton2">Modo visualización</button>
-            </div>
-        </div>
+    </div>
+    </header>
+    <div class="contenido">
+        <main>
+            <section class="box logo-section">
+                <img src="{{ url_for('static', filename='LogoAnimed.gif') }}" alt="Logo-Nombre" id="logo">
+            </section>
+
+            <section class="box buttonBox">
+                <button id="boton1"><a href="/modoEdicion" class="btn" id="link-boton1">Modo edición</a></button>
+                <button id="boton2"><a href="/modoVisualizacion" class="btn" id="link-boton2">Modo visualización</a></button>
+            </section>
+            
+            <section class="equipo">
+                <a href="https://github.com/PioPioPiola" target="_blank" class="tarjeta">
+                    <p>Alejandra Bedoya León</p> 
+                    <img src="{{ url_for('static', filename='Aleja.png') }}" alt="Aleja">
+                    <p>Desarrolladora de Software <br> <br> 
+                        <div class="Logos"> 
+                            <img src="{{ url_for('static', filename='C++.png') }}" alt="Logo C++" width="40px" height="40px" title="C++">
+                            <img src="{{ url_for('static', filename='C#.png') }}" alt="Logo C#" width="40px" height="40px" title="C#">
+                            <img src="{{ url_for('static', filename='Python.webp') }}" alt="Logo Python" width="40px" height="40px" title="Python">
+                            <img src="{{ url_for('static', filename='JavaScript.png') }}" alt="Logo JavaScript" width="40px" height="40px" title="JavaScript">
+                            <img src="{{ url_for('static', filename='CSS.png') }}" alt="Logo CSS" width="40px" height="40px" title="CSS">
+                            <img src="{{ url_for('static', filename='html.png') }}" alt="Logo HTML" width="40px" height="40px" title="HTML">
+                        </div>
+                    </p>
+                </a>
+                <a href="https://github.com/pipe777byte" target="_blank" class="tarjeta">
+                    <p>Felipe Serna Hernandéz</p>
+                    <img src="{{ url_for('static', filename='Felipe.png') }}" alt="Felipe">
+                    <p>Tecnólogo en Sistemas (Estudiante) <br> <br>
+                        <div class="Logos"> 
+                            <img src="{{ url_for('static', filename='C++.png') }}" alt="Logo C++" width="40px" height="40px" title="C++">
+                            <img src="{{ url_for('static', filename='Python.webp') }}" alt="Logo Python" width="40px" height="40px" title="Python">
+                            <img src="{{ url_for('static', filename='JavaScript.png') }}" alt="Logo JavaScript" width="40px" height="40px" title="JavaScript">
+                        </div> 
+                    </p>
+                </a>
+                <a href="https://github.com/Lorox10" target="_blank" class="tarjeta">
+                    <p>Lorenzo Vargas Sala</p> 
+                    <img src="{{ url_for('static', filename='LOLO.png') }}" alt="Lolo">
+                    <p>Ingeniero en Sistemas (Estudiante) <br> <br> 
+                        <div class="Logos"> 
+                            <img src="{{ url_for('static', filename='C++.png') }}" alt="Logo C++" width="40px" height="40px" title="C++">
+                            <img src="{{ url_for('static', filename='C#.png') }}" alt="Logo C#" width="40px" height="40px" title="C#">
+                            <img src="{{ url_for('static', filename='Python.webp') }}" alt="Logo Python" width="40px" height="40px" title="Python">
+                            <img src="{{ url_for('static', filename='JavaScript.png') }}" alt="Logo JavaScript" width="40px" height="40px" title="JavaScript">
+                            <img src="{{ url_for('static', filename='CSS.png') }}" alt="Logo CSS" width="40px" height="40px" title="CSS">
+                            <img src="{{ url_for('static', filename='html.png') }}" alt="Logo HTML" width="40px" height="40px" title="HTML">
+                        </div>
+                    </p>
+                </a>
+                <a href="https://github.com/albertincloud" target="_blank" class="tarjeta">
+                    <p>Mateo Gómez Tamayo</p>
+                    <img src="{{ url_for('static', filename='Mateo.png') }}" alt="Mateo">
+                    <p>Ingeniero en Sistemas (Estudiante) <br> <br> 
+                        <div class="Logos"> 
+                            <img src="{{ url_for('static', filename='C++.png') }}" alt="Logo C++" width="40px" height="40px" title="C++">
+                            <img src="{{ url_for('static', filename='C#.png') }}" alt="Logo C#" width="40px" height="40px" title="C#">
+                            <img src="{{ url_for('static', filename='Python.webp') }}" alt="Logo Python" width="40px" height="40px" title="Python">
+                        </div>
+                    </p>
+                </a>
+            </section>
+        </main>
     </div>
 </body>
 </html>
