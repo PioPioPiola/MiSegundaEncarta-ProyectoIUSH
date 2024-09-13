@@ -292,3 +292,69 @@ h1 {
     position: relative;
     z-index: 2;
 }
+
+.nombre-seccion {
+    width: 595px;
+    height: 68px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #beb6be;
+    font-size: 20px;
+    font-weight: 300px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 12px;
+    box-shadow: rgba(223, 230, 235, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; 
+}
+
+#logout-icon {
+    position: fixed;     
+    top: 30px;            
+    right: 35px;          
+    font-size: 50px;     
+    color: #e6c0eb;          
+    cursor: pointer;    
+    z-index: 1000;
+}
+
+#logout-icon:hover {
+    color: #fdfbfb;     
+}
+
+.ck.ck-reset.ck-editor{
+    background-color: rgb(205, 191, 212); 
+    width: 600px; 
+    height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: rgba(223, 230, 235, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; 
+}
+.ck-editor__editable {
+    background-color: rgb(205, 191, 212); 
+    height: 538px; /* TODO: hacer este tamaño dinámico para la cantidad de texto que se ingrese. La clase de arriba también. */
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: rgba(223, 230, 235, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; 
+}
+
+.ck.ck-toolbar {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+#nueva-seccion {
+    text-decoration: none;
+    margin: 10px;
+    font-size: 15px;
+    color: #8a3e7d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 200px;
+    border-radius: 18px;
+}

@@ -1,0 +1,71 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .success-message {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenido">
+        <div>
+            <div>
+                <form id="editor-form" method="POST" action="/ActualizarSeccion">
+                    <input class="nombre-seccion" name="nombre-seccion" type="text" placeholder="Sección..." value="{{ nombreSeccion }}">
+                    <textarea name="editor" id="editor"></textarea>
+                </form>
+            </div>
+            {% if message %}
+            <div id="message" class="success-message">{{ message }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+
+    <script>
+        let seccion = document.querySelector(".nombre-seccion");
+
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // hacer esto hidden, que se muestre con el hover del editor, no del toolbar
+                toolbar: {
+                    items: [
+                        'imageUpload', 'mediaEmbed', 'customVideoUpload'
+                    ]
+                },
+                mediaEmbed: {
+                    previewsInData: true
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative', 'imageStyle:full', 'imageStyle:side'
+                    ]
+                },
+                simpleUpload: {
+                    uploadUrl: '/upload'
+                }
+            })
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    document.querySelector('#editor').value = editor.getData();
+                });
+
+                seccion.addEventListener('blur', () => {
+                    document.querySelector('#editor').value = editor.getData();
+                    document.querySelector('#editor-form').submit();
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        const messageDiv = document.getElementById('message');
+        if (messageDiv) {
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
