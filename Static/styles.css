@@ -75,7 +75,7 @@ header.box2 {
         transform: translateY(-100px) scale(1);
     }
     50% {
-        transform: translateY(-100px) scale(1.1);
+        transform: translateY(-100px) scale(1.3);
     }
 }
 
