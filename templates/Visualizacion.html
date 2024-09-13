@@ -6,50 +6,153 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles-Visualizacion.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
     <title>Mi Segunda Encarta</title>
+    <style>
+        .content-container {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .video-container, .image-container {
+            margin: 10px 0;
+        }
+        .video-container iframe, .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .section-button, .back-button, .home-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+       
+        .back-button {
+            background-color: #28a745;
+        }
+        .home-button {
+            background-color: #dc3545;
+        }
+        .back-button.hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="contenido">
-        <div class="botones">
-            <p>Lógica de Programación</p>
-            <button id="button1" class="boton boton1" onclick="showContent('content1', this)"></button>
-        </div>
-        <div id="content1" class="content-container">
-            <div class="video-container">
-                <iframe id="videoFrame1" src="https://www.youtube.com/embed/5iT4JNX8KyE" allowfullscreen></iframe>
-                <button onclick="nextVideo('content1')">Siguiente Video</button>
-            </div>
-        </div>
+    <div class="content-container" id="contenido-secciones"></div>
+    <div class="navigation-buttons">
+        <button id="back-button" class="back-button hidden" onclick="showSections()">Retroceder</button>
+        <button class="home-button" onclick="goHome()">Inicio</button>
     </div>
     <script>
-        const videoSets = {
-            'content1': [
-                'https://www.youtube.com/embed/5iT4JNX8KyE',
-                'https://www.youtube.com/embed/pmOgMzBZw2w'
-            ]
-        };
+        let isDisplayingContent = false;
+        let sectionData = {};
 
-        function showContent(contentId, button) {
-            document.querySelectorAll('.content-container').forEach(container => {
-                container.style.display = 'none';
-            });
-            
-            document.getElementById(contentId).style.display = 'block';
-            
-            document.querySelectorAll('.boton').forEach(btn => {
-                btn.classList.remove('selected');
-            });
+        function renderContent(data) {
+            const contenidoSecciones = document.querySelector('#contenido-secciones');
+            const backButton = document.querySelector('#back-button');
+            contenidoSecciones.innerHTML = ''; // Limpiar contenido previo
 
-            button.classList.add('selected');
+            if (Object.keys(data).length === 0) {
+                contenidoSecciones.innerHTML = '<p>No hay secciones disponibles.</p>';
+                backButton.classList.add('hidden'); // Ocultar botón de retroceder
+                return;
+            }
+
+            for (const [id, section] of Object.entries(data)) {
+                const button = document.createElement('button');
+                button.classList.add('section-button');
+                button.textContent = id;
+                button.onclick = () => displaySectionContent(id);
+                contenidoSecciones.appendChild(button);
+            }
+
+            backButton.classList.add('hidden'); // Ocultar botón de retroceder al mostrar lista de secciones
+        }
+
+        function displaySectionContent(id) {
+            fetch('/get_secciones')
+                .then(response => response.json())
+                .then(data => {
+                    sectionData = data; // Guarda los datos de las secciones
+                    const section = data[id];
+                    const container = document.querySelector('#contenido-secciones');
+                    container.innerHTML = ''; // Limpiar contenido previo
+
+                    if (section.content) {
+                        const textDiv = document.createElement('div');
+                        textDiv.classList.add('text-content');
+                        textDiv.innerHTML = section.content;
+                        container.appendChild(textDiv);
+                    }
+
+                    if (section.videos && section.videos.length > 0) {
+                        section.videos.forEach((videoUrl, index) => {
+                            const videoDiv = document.createElement('div');
+                            videoDiv.classList.add('video-container');
+                            videoDiv.innerHTML = `
+                                <iframe src="${videoUrl}" allowfullscreen></iframe>
+                                ${index < section.videos.length - 1 ? '<button onclick="nextVideo(\'' + id + '\')">Siguiente Video</button>' : ''}
+                            `;
+                            container.appendChild(videoDiv);
+                        });
+                    }
+
+                    if (section.images && section.images.length > 0) {
+                        section.images.forEach((imageUrl) => {
+                            const imageDiv = document.createElement('div');
+                            imageDiv.classList.add('image-container');
+                            imageDiv.innerHTML = `<img src="${imageUrl}" alt="Imagen de sección">`;
+                            container.appendChild(imageDiv);
+                        });
+                    }
+
+                    // Mostrar botón de retroceder al mostrar contenido de una sección
+                    document.querySelector('#back-button').classList.remove('hidden');
+                    isDisplayingContent = true; // Marca que se está mostrando contenido
+                })
+                .catch(error => console.error('Error:', error));
         }
 
         function nextVideo(contentId) {
-            const iframe = document.querySelector(`#${contentId} .video-container iframe`);
-            const currentSrc = iframe.src;
-            const videos = videoSets[contentId];
-            const currentIndex = videos.indexOf(currentSrc);
-            const nextIndex = (currentIndex + 1) % videos.length;
-            iframe.src = videos[nextIndex];
+            const container = document.querySelector('#contenido-secciones');
+            const iframes = container.querySelectorAll('.video-container iframe');
+            iframes.forEach(iframe => {
+                const currentSrc = iframe.src;
+                fetch('/get_secciones')
+                    .then(response => response.json())
+                    .then(data => {
+                        const videos = data[contentId].videos;
+                        const currentIndex = videos.indexOf(currentSrc);
+                        const nextIndex = (currentIndex + 1) % videos.length;
+                        iframe.src = videos[nextIndex];
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         }
+
+        function showSections() {
+            if (isDisplayingContent) {
+                fetch('/get_secciones')
+                    .then(response => response.json())
+                    .then(data => renderContent(data))
+                    .catch(error => console.error('Error:', error));
+                isDisplayingContent = false; // Marca que se está mostrando la lista de secciones
+            }
+        }
+
+        function goHome() {
+            window.location.href = "{{ url_for('Index') }}";
+        }
+
+        // Fetch and render the sections on page load
+        fetch('/get_secciones')
+            .then(response => response.json())
+            .then(data => renderContent(data))
+            .catch(error => console.error('Error:', error));
     </script>
 </body>
 </html>

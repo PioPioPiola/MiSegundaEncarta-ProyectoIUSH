@@ -16,7 +16,6 @@
     <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             {% include '_Seccion.html' %}
-            <!-- Controlar que las nuevas secciones que se agreguen sea por consecutivo, ara diferenciar contenido -->
             <div style="display: flex; align-items: center; justify-content: center;">
                 <button id="nueva-seccion"><i class="fas fa-plus-circle"></i> Crear nueva Sección</button>
             </div>
@@ -24,15 +23,15 @@
     </div>
 </body>
 <script>
-        document.querySelector("#nueva-seccion").addEventListener("click", function() {
-            fetch('/modoVisualizacion/CrearSeccion')
-                .then(response => response.json()) // Espera un JSON como respuesta
-                .then(data => {
-                    const nuevaSeccion = document.createElement('div');
-                    nuevaSeccion.innerHTML = data.html;
-                    document.querySelector("#seccion-container").appendChild(nuevaSeccion);
-                })
-                .catch(error => console.error('Error:', error));
-        });
+    document.querySelector("#nueva-seccion").addEventListener("click", function() {
+        fetch('/modoVisualizacion/CrearSeccion')
+            .then(response => response.json()) 
+            .then(data => {
+                const nuevaSeccion = document.createElement('div');
+                nuevaSeccion.innerHTML = data.html;
+                document.querySelector("#seccion-container").appendChild(nuevaSeccion);
+            })
+            .catch(error => console.error('Error:', error));
+    });
 </script>
 </html>

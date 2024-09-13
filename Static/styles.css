@@ -252,7 +252,7 @@ h1 {
 
     #boton1, #boton2 {
         height: 50px;
-        transform: translateY(-50px); 
+        transform: translateY(-10px); 
     }
 
     #link-boton1, #link-boton2 {
@@ -331,7 +331,7 @@ h1 {
 }
 .ck-editor__editable {
     background-color: rgb(205, 191, 212); 
-    height: 538px; /* TODO: hacer este tamaño dinámico para la cantidad de texto que se ingrese. La clase de arriba también. */
+    height: 538px; 
     font-family: 'Arial', sans-serif;
     font-size: 16px;
     color: #333;
