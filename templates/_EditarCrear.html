@@ -3,19 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
 
     <title>Mi Segunda Encarta</title>
 </head>
 <body>
-    <div class="contenido" style="display: flex; flex-direction: column; width: 900px;">
-        <h1>Aquí edito gg</h1>
-        <div style="display: flex; justify-content: center;">
-            <div style="background-color: aliceblue; width: 500px; height: 500px;">
-                <p style="color: black;">Estamos escribiendo algo jejejeje</p>
+    <a href="/inicio" title="Salir del modo">
+        <i class="fas fa-sign-out-alt" id="logout-icon"></i>
+    </a>
+    <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            {% include '_Seccion.html' %}
+            <!-- Controlar que las nuevas secciones que se agreguen sea por consecutivo, ara diferenciar contenido -->
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <button id="nueva-seccion"><i class="fas fa-plus-circle"></i> Crear nueva Sección</button>
             </div>
         </div>
     </div>
 </body>
+<script>
+        document.querySelector("#nueva-seccion").addEventListener("click", function() {
+            fetch('/modoVisualizacion/CrearSeccion')
+                .then(response => response.json()) // Espera un JSON como respuesta
+                .then(data => {
+                    const nuevaSeccion = document.createElement('div');
+                    nuevaSeccion.innerHTML = data.html;
+                    document.querySelector("#seccion-container").appendChild(nuevaSeccion);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+</script>
 </html>

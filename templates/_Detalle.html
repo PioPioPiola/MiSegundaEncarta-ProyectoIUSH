@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--TODO: Hacer un layout con etiquetas de header, links, etc, para estandarizar elementos-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
 
     <title>Mi Segunda Encarta</title>
 </head>
 <body>
+    <a href="/inicio" title="Salir del modo">
+        <i class="fas fa-sign-out-alt" id="logout-icon"></i>
+    </a>
     <div class="contenido" style="display: flex; flex-direction: column; width: 900px;">
         <h1>Aquí veo gg</h1>
         <div style="display: flex; justify-content: center;">
