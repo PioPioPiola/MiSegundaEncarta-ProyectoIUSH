@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-Visualizacion.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
+    <title>Mi Segunda Encarta</title>
+</head>
+<body>
+    <div class="contenido">
+        <div class="botones">
+            <p>Lógica de Programación</p>
+            <button id="button1" class="boton boton1" onclick="showContent('content1', this)"></button>
+        </div>
+        <div id="content1" class="content-container">
+            <div class="video-container">
+                <iframe id="videoFrame1" src="https://www.youtube.com/embed/5iT4JNX8KyE" allowfullscreen></iframe>
+                <button onclick="nextVideo('content1')">Siguiente Video</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const videoSets = {
+            'content1': [
+                'https://www.youtube.com/embed/5iT4JNX8KyE',
+                'https://www.youtube.com/embed/pmOgMzBZw2w'
+            ]
+        };
+
+        function showContent(contentId, button) {
+            document.querySelectorAll('.content-container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            document.getElementById(contentId).style.display = 'block';
+            
+            document.querySelectorAll('.boton').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            button.classList.add('selected');
+        }
+
+        function nextVideo(contentId) {
+            const iframe = document.querySelector(`#${contentId} .video-container iframe`);
+            const currentSrc = iframe.src;
+            const videos = videoSets[contentId];
+            const currentIndex = videos.indexOf(currentSrc);
+            const nextIndex = (currentIndex + 1) % videos.length;
+            iframe.src = videos[nextIndex];
+        }
+    </script>
+</body>
+</html>

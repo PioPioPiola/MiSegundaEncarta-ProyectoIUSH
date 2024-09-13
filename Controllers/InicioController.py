@@ -17,7 +17,7 @@ def EditarCrear():
 
 @app.route("/modoVisualizacion")
 def Detalle():
-    return render_template('_Detalle.html')
+    return render_template('Visualizacion.html')
 
 @app.route('/ActualizarSeccion', methods=['POST'])
 def ActualizarSeccion():
