@@ -2,53 +2,59 @@ from main import app
 from flask import render_template, request, jsonify, redirect, url_for
 import cloudinary.uploader
 import hashlib
-
-# Inicializa la estructura global para almacenar secciones
-secciones = {}
+from flask import request, render_template, redirect, url_for
+from Models.ServicioBd import AgregarSeccion, ObtenerSecciones, ObtenerSeccion, ModificarSeccion, EliminarSeccion
 
 @app.route("/inicio")
 def Index():
     return render_template('Index.html')
 
 @app.route("/modoEdicion")
-def EditarCrear():
-    nombreSeccion = request.args.get('nombreSeccion', '')
-    message = request.args.get('message', '')
-    return render_template('_EditarCrear.html', nombreSeccion=nombreSeccion, message=message)
+def DetalleEdicion():
+    secciones = ObtenerSecciones()
+    if secciones.count == 0:
+        return render_template('_EditarCrear.html', idSeccion=0)
+    else:
+        return render_template('_DetalleEdicion.html', secciones=secciones, idSeccion=0)
+    
+@app.route("/Editar/<int:idSeccion>")
+def EditarCrear(idSeccion):
+    if idSeccion == 0:
+        seccion_data = None
+    else:
+        seccion_data = ObtenerSeccion(idSeccion)
+    
+    return render_template('_EditarCrear.html', idSeccion=idSeccion, seccion_data=seccion_data)
 
 @app.route("/modoVisualizacion")
 def Detalle():
-    return render_template('Visualizacion.html')
+    secciones = ObtenerSecciones()
+    return render_template('Visualizacion.html', secciones = secciones)
 
-@app.route('/ActualizarSeccion', methods=['POST'])
-def ActualizarSeccion():
-    nombreSeccion = request.form.get('nombre-seccion')
-    editorContent = request.form.get('editor')
-    videos = request.form.get('videos', '').split('\n')  # Asumiendo que los videos están separados por nuevas líneas
+@app.route('/ActualizarSeccion/<int:idSeccion>', methods=['POST'])
+def ActualizarSeccion(idSeccion):
+    nombre = request.form.get('nombre', '')  
+    contenido = request.form.get('contenido', '')  
 
-    # Guardar los datos en la estructura
-    secciones[nombreSeccion] = {
-        'content': editorContent,
-        'videos': videos
-    }
+    if idSeccion == 0:
+        AgregarSeccion(nombre, contenido)
+    else:
+        ModificarSeccion(idSeccion, nombre, contenido)
 
-    return redirect(url_for('EditarCrear', nombreSeccion=nombreSeccion, message="Registro modificado correctamente."))
+    secciones = ObtenerSecciones()
+    return render_template('_DetalleEdicion.html', secciones=secciones, message="Registro modificado correctamente.")
 
-@app.route('/get_secciones')
-def get_secciones():
-    return jsonify(secciones)
-
-@app.route('/delete_section/<section_id>', methods=['DELETE'])
-def delete_section(section_id):
-    if section_id in secciones:
-        del secciones[section_id]
-        return jsonify(success=True)
-    return jsonify(success=False)
+@app.route('/EliminarSeccion/<section_id>', methods=['DELETE'])
+def EliminarSeccion(idSeccion):
+    EliminarSeccion(idSeccion)
+    secciones = ObtenerSecciones()
+    return render_template('_EditarCrear.html', secciones = secciones)
 
 @app.route('/upload', methods=['POST'])
 def upload():
     try:
         if 'upload' not in request.files:
+
             return jsonify({'error': 'No file part'}), 400
         
         file = request.files['upload']

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
+
+    <title>Mi Segunda Encarta</title>
+</head>
+<body>
+    <a href="/inicio" title="Salir del modo">
+        <i class="fas fa-sign-out-alt" id="logout-icon"></i>
+    </a>
+
+    <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            {% for seccion in secciones %}
+                {% set seccion_data = seccion %}
+                {% include '_Seccion.html' %}
+            {% endfor %}
+            
+            <a href="{{ url_for('EditarCrear', idSeccion=0) }}">
+                <button type="button" id="nueva-seccion" style="margin-top: 20px;">
+                    <i class="fas fa-plus-circle"></i> Crear nueva Sección
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const textareas = document.querySelectorAll('textarea[id^="editor-"]');
+            textareas.forEach(textarea => {
+                ClassicEditor.create(textarea)
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

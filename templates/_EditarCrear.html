@@ -16,22 +16,32 @@
     <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             {% include '_Seccion.html' %}
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <button id="nueva-seccion"><i class="fas fa-plus-circle"></i> Crear nueva Sección</button>
-            </div>
         </div>
     </div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <a href="{{ url_for('DetalleEdicion') }}">
+            <button type="button" id="cancelar" style="padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 5px;">
+                Cancelar
+            </button>
+        </a>
+    
+        <button type="submit" id="aceptar" form="editor-form" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">
+            Aceptar
+        </button>
+    </div>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const textareas = document.querySelectorAll('textarea[id^="editor-"]'); 
+            textareas.forEach(textarea => {
+                ClassicEditor.create(textarea)
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+    </script>
 </body>
-<script>
-    document.querySelector("#nueva-seccion").addEventListener("click", function() {
-        fetch('/modoVisualizacion/CrearSeccion')
-            .then(response => response.json()) 
-            .then(data => {
-                const nuevaSeccion = document.createElement('div');
-                nuevaSeccion.innerHTML = data.html;
-                document.querySelector("#seccion-container").appendChild(nuevaSeccion);
-            })
-            .catch(error => console.error('Error:', error));
-    });
-</script>
 </html>

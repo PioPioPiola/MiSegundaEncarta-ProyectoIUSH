@@ -1,11 +1,20 @@
 from flask import Flask
 from flask_ckeditor import CKEditor
+from flask import Flask
+from Models.database import close_connection
+from Models.ServicioBd import crearTablaBd
 import cloudinary
 import cloudinary.uploader
-import json
-import os
 
 app = Flask(__name__)
+
+#Se crea la tabla que almacenará la información en Bd
+with app.app_context():
+    crearTablaBd()
+
+# Cerrar conexión a db
+def close_db_connection(exception):
+    close_connection(exception)
 
 # Configuración para Cloudinary
 cloudinary.config(
