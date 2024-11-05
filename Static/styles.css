@@ -55,6 +55,37 @@ header.box2 {
     padding-top: 80px;
 }
 
+
+#detalle-contenido {
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    background-color: #fff;
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 538px; 
+    height: 538px;
+    padding: 20px;
+}
+
+#titulo-contenido {
+    width: 560px;
+    height: 28px;
+    padding: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #3a013a;
+    font-weight: 600;
+    background-color: #fff;
+    font-size: 20px;
+    font-weight: 300px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 12px;
+    box-shadow: rgba(223, 230, 235, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    display:flex;
+    justify-content: space-between;
+}
+
 .box {
     padding: 15px;
     background-color: transparent;
@@ -294,7 +325,7 @@ h1 {
 }
 
 .nombre {
-    width: 595px;
+    width: 660px;
     height: 68px;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -315,15 +346,18 @@ h1 {
     cursor: pointer;    
     z-index: 1000;
 }
+#editar-titulo {         
+    font-size: 20px;     
+    color: #e6c0eb;          
+    cursor: pointer;    
+}
 
-#logout-icon:hover {
+#logout-icon:hover, #editar-titulo:hover {
     color: #fdfbfb;     
 }
 
 .ck.ck-reset.ck-editor{
     background-color: rgb(205, 191, 212); 
-    width: 600px; 
-    height: 600px;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 10px;
@@ -346,10 +380,11 @@ h1 {
     border: 1px solid #ccc;
 }
 
-#nueva-seccion {
+#nueva-seccion, #cancelar, #aceptar {
     text-decoration: none;
     margin: 10px;
     font-size: 15px;
+    font-weight:550;
     color: #8a3e7d;
     display: flex;
     justify-content: center;

@@ -18,17 +18,19 @@
             {% include '_Seccion.html' %}
         </div>
     </div>
-
-    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-        <a href="{{ url_for('DetalleEdicion') }}">
-            <button type="button" id="cancelar" style="padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 5px;">
-                Cancelar
+    <div class="contenido" style="display: flex; justify-content: space-between; margin-top: 20px; width: 660;">
+        <div>
+            <a href="{{ url_for('DetalleEdicion') }}">
+                <button type="button" id="cancelar" style="padding: 10px 20px;">
+                    Cancelar
+                </button>
+            </a>
+        </div>
+        <div>
+            <button type="submit" form="editor-form" id="aceptar" style="padding: 10px 20px; background-color: #8a3e7d; color: #fff;">
+                Guardar
             </button>
-        </a>
-    
-        <button type="submit" id="aceptar" form="editor-form" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">
-            Aceptar
-        </button>
+        </div>
     </div>
 
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
@@ -36,7 +38,13 @@
         document.addEventListener("DOMContentLoaded", function() {
             const textareas = document.querySelectorAll('textarea[id^="editor-"]'); 
             textareas.forEach(textarea => {
-                ClassicEditor.create(textarea)
+                ClassicEditor.create(textarea,
+                {
+                    toolbar: [
+                    'heading', 'bold', 'italic', 'imageUpload', 'mediaEmbed', 
+                    'bulletedList', 'numberedList', 'undo', 'redo'
+                ]
+                })
                 .catch(error => {
                     console.error(error);
                 });

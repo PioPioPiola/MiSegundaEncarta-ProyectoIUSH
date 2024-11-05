@@ -1,72 +1,10 @@
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        .success-message {
-            color: green;
-            font-weight: bold;
-        } 
-    </style>
-</head>
-<body>
-    <div class="contenido">
-        <div>
-            <div>
-                <input type="hidden" id="idSeccion" name="idSeccion" value="{{ idSeccion }}">
-                <form id="editor-form" method="POST" action="{{ url_for('ActualizarSeccion', idSeccion=0) }}">
-                    <input class="nombre" name="nombre" type="text" placeholder="Sección..." value="{% if seccion_data and seccion_data.nombre %}{{ seccion_data.nombre }}{% else %}{% endif %}">
-                    <textarea name="contenido" id="editor">{{ seccion_data.contenido if seccion_data else '' }}</textarea>
-                </form>
-                
-            </div>
-
-            {% if message %}
-            <div id="message" class="success-message">{{ message }}</div>
-            {% endif %}
-        </div>
+<div class="contenido">
+    <div>
+        <input type="hidden" id="idSeccion" name="idSeccion" value="{{ idSeccion }}">
+        <form id="editor-form" method="POST" action="{{ url_for('ActualizarSeccion', idSeccion=idSeccion) }}">
+            <input class="nombre" name="nombre" type="text" placeholder="Sección..."
+                   value="{{ seccion[1] if seccion and seccion[1] else ''}}">
+            <textarea class="editor-textarea" name="contenido" id="editor-{{ idSeccion }}">{{ seccion[2] if seccion and seccion[2] else '' }}</textarea>
+        </form>
     </div>
-    
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                toolbar: {
-                    items: [
-                        'imageUpload',      
-                        'mediaEmbed'       
-                    ]
-                },
-                mediaEmbed: {
-                    previewsInData: true
-                },
-                image: {
-                    toolbar: [
-                        'imageTextAlternative' 
-                    ]
-                },
-                simpleUpload: {
-                    uploadUrl: '/upload'  
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    
-        const messageDiv = document.getElementById('message');
-        if (messageDiv) {
-            setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 2000);
-        }
-    
-        function enviarFormulario() {
-            let idSeccion = document.getElementById('idSeccion').value;
-    
-            if (idSeccion != 0) {
-                document.getElementById('editor-form').submit();
-            }
-        }
-    </script>
-    
-    
-</body>
+</div>
