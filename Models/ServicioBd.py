@@ -27,7 +27,7 @@ def ModificarSeccion(idSeccion, nombre, descripcion):
     db.execute('UPDATE tbl_secciones SET nombre = ?, descripcion = ? WHERE id = ?', (nombre, descripcion, idSeccion))
     db.commit()
 
-def EliminarSeccion(idSeccion):
+def EliminarSeccionTabla(idSeccion):
     db = get_db()
     db.execute('DELETE FROM tbl_secciones WHERE id = ?', [idSeccion])
     db.commit()

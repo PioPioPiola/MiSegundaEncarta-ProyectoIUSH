@@ -13,27 +13,116 @@
     <a href="/inicio" title="Salir del modo">
         <i class="fas fa-sign-out-alt" id="logout-icon"></i>
     </a>
-
-    <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
+    <div class="contenido" style="display: flex; flex-direction: column; padding-bottom: 40px;" id="seccion-container">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            {% for seccion in secciones %}
             <div class="contenido">
                 <div>
-                    <input type="hidden" id="idSeccion" name="idSeccion" value="{{ seccion[0] }}">
+                    <input type="hidden" id="idSeccion" name="idSeccion" value="{{ arbol.consecutivo }}">
                     <div id="titulo-contenido">
                         <div>
-                            {{ seccion[1] if seccion and seccion[1] else '' }}
+                            {{ arbol.titulo if arbol else '' }}
                         </div>
                     </div>
                     <div class="ck ck-reset ck-editor ck-rounded-corners">
-                        <div id="detalle-contenido">
-                            {{ seccion[2] | safe if seccion and seccion[2] else '' }}
+                        <div id="detalle-contenido-vista">
+                            {{ arbol.contenido | safe if arbol else '' }}
                         </div>
                     </div>
                 </div>
+                <div style="display:flex; justify-content: space-between;">
+                    <button id="anterior" onclick="mostrarPadre()" style="background-color: #fff; color:#8a3e7d;">&#10094; Anterior</button>
+                    <button id="siguiente" onclick="mostrarHijo()" style="background-color: #8a3e7d; color: #fff;">Siguiente &#10095;</button>
+                </div>
             </div>
-            {% endfor %}
         </div>
     </div>
+    <div class="mensaje" id="mensaje-accion" style="background-color: #58c2f3;"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let nodoActual = JSON.parse('{{ arbol | tojson | safe }}');
+        debugger;
+        let nodoPadre = null;
+        const padresHijos = {[nodoActual.consecutivo] : nodoPadre}; // La clave es el hijo, el valor es el padre.
+
+        function mostrarHijo() {
+            debugger;
+            
+            if (nodoActual.hijo) {
+                debugger;
+                nodoPadre = nodoActual;
+                nodoActual = nodoActual.hijo;
+                padresHijos[nodoActual.consecutivo] = nodoPadre;
+                $('#anterior').attr("disabled", false);
+                $('#siguiente').attr("disabled", false);
+                actualizarContenido();
+            } else {
+                $('#siguiente').attr("disabled", true);
+            }
+        }
+
+        function mostrarPadre() {
+            if (nodoPadre) {
+                debugger;
+                nodoActual = nodoPadre;
+                nodoPadre = padresHijos[nodoActual.consecutivo];
+                $('#anterior').attr("disabled", false);
+                $('#siguiente').attr("disabled", false);
+                actualizarContenido();
+            } else {
+                $('#anterior').attr("disabled", true);
+                mostrarAlerta("Se encuentra en la primera sección.");
+            }
+        }
+
+        function actualizarContenido() {
+            procesarVideos();
+            if (nodoActual.titulo && nodoActual.contenido) {
+                $("#titulo-contenido").text(nodoActual.titulo);
+                $("#detalle-contenido-vista").html(nodoActual.contenido);
+                
+                if (!nodoActual.hijo) {
+                    $('#siguiente').attr("disabled", true);
+                    mostrarAlerta("Se encuentra en la última sección.");
+                }
+
+            }
+        }
+
+        function mostrarAlerta(mensaje) {
+            debugger;
+            const recuadroMensaje = $("#mensaje-accion");
+            recuadroMensaje.text(mensaje);
+            recuadroMensaje.show();
+
+            setTimeout(function() {
+                recuadroMensaje.hide(); 
+            }, 2000);
+        }
+
+        function procesarVideos() {
+            $('#detalle-contenido-vista').find('div[data-oembed-url]').each(function() {
+                var url = $(this).attr('data-oembed-url');
+                if (url) {
+                    var videoId = url.split('v=')[1].split('&')[0];
+                    var iframeSrc = "https://www.youtube.com/embed/" + videoId;
+                    $(this).html('<iframe src="' + iframeSrc + '" width="450" height="200" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
+                }
+            });
+
+            $('#detalle-contenido-vista').find('img').each(function() {
+                var imgSrc = $(this).attr('src');
+                if (imgSrc) {
+                    $(this).css({
+                        'max-width': '100%',    
+                        'height': 'auto'       
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            procesarVideos(); 
+        });
+    </script>
 </body>
 </html>

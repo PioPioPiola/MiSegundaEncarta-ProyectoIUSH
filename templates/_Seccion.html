@@ -4,7 +4,18 @@
         <form id="editor-form" method="POST" action="{{ url_for('ActualizarSeccion', idSeccion=idSeccion) }}">
             <input class="nombre" name="nombre" type="text" placeholder="Sección..."
                    value="{{ seccion[1] if seccion and seccion[1] else ''}}">
-            <textarea class="editor-textarea" name="contenido" id="editor-{{ idSeccion }}">{{ seccion[2] if seccion and seccion[2] else '' }}</textarea>
+            <textarea class="editor-textarea" name="contenido" id="editor-{{ idSeccion }}" 
+                      style="resize: none; word-wrap: break-word;">{{ seccion[2] if seccion and seccion[2] else '' }}</textarea>
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+    $('.ck-editor__editable').each(function() {
+        $(this).css({
+            'word-wrap': 'break-word',   
+            'resize': 'none'            
+        });
+    });
+});
+</script>

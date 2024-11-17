@@ -1,12 +1,15 @@
 from flask import Flask
 from flask_ckeditor import CKEditor
 from flask import Flask
+from flask_cors import CORS
 from Models.database import close_connection
 from Models.ServicioBd import crearTablaBd
 import cloudinary
 import cloudinary.uploader
 
 app = Flask(__name__)
+CORS(app)
+app.secret_key = '12444666666'
 
 #Se crea la tabla que almacenará la información en Bd
 with app.app_context():

@@ -20,7 +20,7 @@
     </div>
     <div class="contenido" style="display: flex; justify-content: space-between; margin-top: 20px; width: 660;">
         <div>
-            <a href="{{ url_for('DetalleEdicion') }}">
+            <a href="{{ url_for('DetalleEdicion') }}" style="text-decoration: none;">
                 <button type="button" id="cancelar" style="padding: 10px 20px;">
                     Cancelar
                 </button>
@@ -34,22 +34,78 @@
     </div>
 
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const textareas = document.querySelectorAll('textarea[id^="editor-"]'); 
-            textareas.forEach(textarea => {
-                ClassicEditor.create(textarea,
-                {
-                    toolbar: [
-                    'heading', 'bold', 'italic', 'imageUpload', 'mediaEmbed', 
-                    'bulletedList', 'numberedList', 'undo', 'redo'
-                ]
-                })
-                .catch(error => {
-                    console.error(error);
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const textareas = document.querySelectorAll('textarea[id^="editor-"]');
+                
+                textareas.forEach(textarea => {
+                    ClassicEditor
+                        .create(textarea, {
+                            toolbar: [
+                                'heading', 'bold', 'italic', 'imageUpload', 'mediaEmbed', 
+                                'bulletedList', 'numberedList', 'undo', 'redo'
+                            ],
+                            mediaEmbed: {
+                                previewsInData: true  
+                            },
+                            ckfinder: {
+                                uploadUrl: '/upload_image'
+                            },
+                            autoGrow_maxHeight: 900, // Ajusta este valor según lo necesites
+                            autoGrow_minHeight: 460, // Ajusta el tamaño mínimo
+                            autoGrow_bottomSpace: 50,
+                            width: '500px'
+                        })
+                        .then(editor => {
+                            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                                return new SimpleUploadAdapter(loader);
+                            };
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
                 });
+
+                class SimpleUploadAdapter {
+                    constructor(loader) {
+                        this.loader = loader;
+                    }
+
+                    upload() {
+                        return this.loader.file
+                            .then(file => new Promise((resolve, reject) => {
+                                const img = new Image();
+                                img.src = URL.createObjectURL(file);
+
+                                img.onload = () => {
+                                    if (img.width > 600) {
+                                        alert('La imagen debe ser de 600 píxeles de ancho o menos.');
+                                        reject();
+                                    } else {
+                                        const formData = new FormData();
+                                        formData.append('upload', file);
+
+                                        fetch('/upload_image', {
+                                            method: 'POST',
+                                            body: formData
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            resolve({
+                                                default: data.url
+                                            });
+                                        })
+                                        .catch(() => {
+                                            reject('Error al intentar subir la imagen.');
+                                        });
+                                    }
+                                };
+                            }));
+                    }
+                }
+                
             });
-        });
-    </script>
+            
+        </script>
 </body>
 </html>

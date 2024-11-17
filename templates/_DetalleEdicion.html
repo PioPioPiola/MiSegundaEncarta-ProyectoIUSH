@@ -13,7 +13,13 @@
     <a href="/inicio" title="Salir del modo">
         <i class="fas fa-sign-out-alt" id="logout-icon"></i>
     </a>
-
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="mensaje" id="mensaje-accion">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
     <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             {% for seccion in secciones %}
@@ -25,9 +31,14 @@
                             {{ seccion[1] if seccion and seccion[1] else '' }}
                         </div>
                         <div>
-                            <a href="{{ url_for('EditarCrear', idSeccion=seccion[0]) }}" title="Editar sección" data-toggle="tooltip">
+                            <a href="{{ url_for('EditarCrear', idSeccion=seccion[0]) }}" title="Editar sección" data-toggle="tooltip" style="text-decoration: none;">
                                 <i class="fas fa-edit" id="editar-titulo"></i>
                             </a>
+                            <form action="{{ url_for('EliminarSeccion', idSeccion=seccion[0]) }}" method="POST" style="display: inline;">
+                                <button type="submit" title="Eliminar sección" data-toggle="tooltip" style="background: none; border: none; cursor: pointer;">
+                                    <i class="fas fa-times" id="eliminar-titulo"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="ck ck-reset ck-editor ck-rounded-corners">
@@ -37,13 +48,49 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            <a href="{{ url_for('EditarCrear', idSeccion=0) }}">
+        {% endfor %}
+            <a href="{{ url_for('EditarCrear', idSeccion=0) }}" style="text-decoration: none;">
                 <button type="button" id="nueva-seccion" style="margin-top: 20px;">
-                    <i class="fas fa-plus-circle"></i> Crear nueva Sección
+                    <i class="fas fa-plus-circle"></i>
+                    <div>Crear nueva Sección</div>
                 </button>
             </a>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+            $(document).ready(function() {
+                const mensaje = $("#mensaje-accion");
+
+                if (mensaje.length) {
+                    mensaje.show(); 
+
+                    setTimeout(function() {
+                        mensaje.hide(); 
+                    }, 2000);
+                }
+
+                $(document).ready(function() {
+                    $('.contenido').each(function() {
+                        $(this).find('#detalle-contenido').each(function() {
+                            $(this).find('div[data-oembed-url]').each(function() {
+                                $(this).css({
+                                    'width': '450px',
+                                    'height': '100px',
+                                    'position': 'relative'  
+                                });
+                            });
+                        });
+                    });
+                    $('#detalle-contenido').each(function() {
+                        $(this).css({
+                            'word-wrap': 'break-word',
+                            'overflow-wrap': 'break-word',
+                            'white-space': 'normal'
+                        });
+                });
+            });
+
+    </script>
 </body>
 </html>
