@@ -105,7 +105,7 @@ header.box2 {
 #logo {
     width: 220px;
     height: 220px;
-    padding: 15px;
+    padding: 55px;
     transform: translateY(-100px);
     animation: breathe 3s ease-in-out infinite;
 }
@@ -131,7 +131,7 @@ header.box2 {
     flex: 1;
     height: 80px;
     border-radius: 18px;
-    background: linear-gradient(to right, #940a9e9e, #217cb4c3);
+    background: linear-gradient(to right, #940a9e9e, #5c21b4c3);
     border: 2px solid #ffffff90;
     text-align: center;
     transition: box-shadow 0.3s ease; 
@@ -161,7 +161,7 @@ header.box2 {
 
 h1 {
     font-size: 2em;
-    background: linear-gradient(60deg, rgb(193, 50, 155), rgba(204, 0, 255, 0.737), rgb(86, 173, 210));
+    background: linear-gradient(60deg, rgb(193, 50, 155), rgba(204, 0, 255, 0.737), rgb(148, 86, 210));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -173,13 +173,16 @@ h1 {
     justify-content: space-around; 
     align-items: stretch;
     width: 100%; 
-    gap: 70px; 
-    padding: 20px;
+    gap: 50px; 
+    padding: -10px;
+    border-top: 2px solid #ccc; /* Línea superior */
+    padding-top: 30px; /* Espaciado entre la línea y el contenido */
+    margin-top: -30px; /* Espaciado con la sección anterior */
 }
 
 .tarjeta {
     background-color: #9f0ce815; 
-    padding: 20px;
+    padding: 10px;
     border-radius: 50px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     width: 200px; 
@@ -202,10 +205,10 @@ h1 {
 
 .tarjeta img {
     width: 100px; 
-    height: 120px; 
-    border-radius: 50%; 
+    height: 150px; 
+    border-radius: 20%; 
     object-fit: cover; 
-    margin-bottom: 10px; 
+    margin-bottom: -10px; 
 }
 
 .tarjeta p {
@@ -421,3 +424,4 @@ h1 {
     z-index: 1000; 
     display: none;
 }
+

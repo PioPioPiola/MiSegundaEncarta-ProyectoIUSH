@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='Logo.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='BotonCrearNueva.css') }}">
 
     <title>Mi Segunda Encarta</title>
 </head>
@@ -21,6 +22,19 @@
     {% endif %}
     {% endwith %}
     <div class="contenido" style="display: flex; flex-direction: column;" id="seccion-container">
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <div class="learn-more-container">
+                <a href="{{ url_for('EditarCrear', idSeccion=0) }}" style="text-decoration: none;">
+                    <button class="learn-more">
+                        <span class="circle" aria-hidden="true">
+                            <span class="icon arrow"></span>
+                        </span>
+                        <span class="button-text">Crear Nueva Seccion</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
             {% for seccion in secciones %}
             <div class="contenido">
@@ -48,15 +62,10 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
-            <a href="{{ url_for('EditarCrear', idSeccion=0) }}" style="text-decoration: none;">
-                <button type="button" id="nueva-seccion" style="margin-top: 20px;">
-                    <i class="fas fa-plus-circle"></i>
-                    <div>Crear nueva Sección</div>
-                </button>
-            </a>
+            {% endfor %}
         </div>
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
             $(document).ready(function() {
